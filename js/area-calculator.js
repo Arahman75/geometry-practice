@@ -16,6 +16,7 @@ function calculateTriangleArea() {
 
     const areaField = document.getElementById('triangle-area');
     areaField.innerText = area;
+    addToCalculationEntry('Triangle', area)
 }
 
 function calculateRectangleArea() {
@@ -29,11 +30,16 @@ function calculateRectangleArea() {
     const rectangleLength = parseFloat(rectangleWithText);
     // console.log(rectangleLength);
 
+    if (isNaN(rectangleWith) || isNaN(rectangleLength)) {
+        alert('Please insert a number');
+        return;
+    }
+
     const area = rectangleWith * rectangleLength;
 
     const rectangleAreaField = document.getElementById('rectangle-area');
     rectangleAreaField.innerText = area;
-
+    addToCalculationEntry('Rectangle', area)
 }
 
 // functional code without reuse
@@ -43,7 +49,8 @@ function calculateParallelogramArea() {
     const height = getInputValue('parallelogram-height')
 
     const area = base * height;
-    setElementInnerText('parallelogram-area', area)
+    setElementInnerText('parallelogram-area', area);
+    addToCalculationEntry('Parallelogram', area)
 }
 
 // EllipseArea
@@ -52,8 +59,9 @@ function calculateEllipseArea() {
     const majorRadius = getInputValue('ellipse-major-radius');
     const minorRadius = getInputValue('ellipse-minor-radius');
     const ellipse = 3.14 * majorRadius * minorRadius;
-    setElementInnerText('ellipse-area', ellipse)
-
+    const ellipseTwoDecimal = ellipse.toFixed(2);
+    setElementInnerText('ellipse-area', ellipseTwoDecimal)
+    addToCalculationEntry('Ellipse', ellipseTwoDecimal)
 }
 
 
@@ -68,4 +76,17 @@ function setElementInnerText(elementId, area) {
     const elementFieldText = document.getElementById(elementId);
     elementFieldText.innerText = area;
 
+}
+
+// calculation 
+function addToCalculationEntry(areaType, area) {
+    console.log(areaType + ' ' + area);
+    const calculationEntry = document.getElementById('calculation-entry');
+
+    const count = calculationEntry.childElementCount;
+    const p = document.createElement('p');
+    p.classList.add('my-5')
+    // p.innerHTML = areaType + ' ' + area;
+    p.innerHTML = `${count + 1} ${areaType} ${area} cm<sup>2</sup> <button class="btn btn-sm btn-secondary">Convert</button>`
+    calculationEntry.appendChild(p);
 }
